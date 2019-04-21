@@ -29,64 +29,66 @@ int main(int argc, char *argv[]){
     else{
         return 2;
     }
-	 if(!io[0]){
-        fscanf(stdin, "%s %s", a ,b);
-         bI = toInt128(a, &nV) ;
-         bS = toInt128(b, &nV) ;
-	 }else{
-		fscanf(fe, "%s %s", a ,b);
-         bI =  toInt128(a, &nV) ;
-         bS = toInt128(b, &nV) ;
-	}
-		if(nV == true)
-            return 4;
-    fclose(fe);
-    if(bI>bS)
+	 if(!io[0])
+         fe = stdin;
+    while (!feof(fe)){
+        nV = false;
+        fscanf(fe, "%s %s", a , b) ;
+        bI = toInt128(a, &nV);
+        bS = toInt128(b, &nV);
+        if( nV == true)
+            continue;
+    
+        if(bI>bS)
         swap(&bI,&bS);
   
    
-   // fprintf(stdout, "bI = %s \n bS = %s \n", toString(bI), toString(bS));
-    int p1 = estPremier(&bI);
-    int p2 = estPremier(&bS);
+        // fprintf(stdout, "bI = %s \n bS = %s \n", toString(bI), toString(bS));
+        int p1 = estPremier(&bI);
+        int p2 = estPremier(&bS);
    
-   // printf("p1 = %d \n p2 = %d \n", p1,p2);
-    for(int z = p1; z<= p2; z++){
-        uint128_t pP = 0;
-        uint128_t pM = pow(2,z);
-        pM -= 1;
-        uint128_t pM2 = pow(2,z-1);
-        if(Preums(z)&&Preums(pM)){
-            pP = pM2 * pM;
-        }
-        else
-            continue;
-       // fprintf(stdout, "%s \n", toString(pP));
-        if(estParfait(pP) && pP<=bS && pP >= bI){
-            ajouter(&Tab, pP);
-//            if(!io[1])
-//            fprintf(stdout, "%s \n", toString(pP));
-//            else{
-//                if(fs == NULL)
-//                    return 6;
-//                else{
-//                    fprintf(fs,"%s \n", toString(pP));
-//                    
-//                }
-//            }
+        // printf("p1 = %d \n p2 = %d \n", p1,p2);
+        for(int z = p1; z<= p2; z++){
+            uint128_t pP = 0;
+            uint128_t pM = pow(2,z);
+            pM -= 1;
+            uint128_t pM2 = pow(2,z-1);
+            if(Preums(z)&&Preums(pM)){
+                pP = pM2 * pM;
+            }
+            else
+                continue;
+    
+            if(estParfait(pP) && pP<=bS && pP >= bI){
+                if(!contient(&Tab, pP))
+                    ajouter(&Tab, pP);
+            }
         }
     }
-    for(int i = 0; i<Tab.nbElements;i++){
-        if(!io[1])
-            fprintf(stdout, "%s \n", toString(Tab.Elements[i]));
-        else{
-            if(fs == NULL)
-                return 6;
-            else{
-                fprintf(fs,"%s \n", toString(Tab.Elements[i]));
-            
-                }
+    fclose(fe);
+    if(nV == true)
+        return 4;
+    
+    if(ordre == ASC){
+        for(int i = Tab.nbElements-1; i >= 0; i--)
+            if(!io[1])
+                fprintf(stdout, "%s \n", toString(Tab.Elements[i]));
+            else
+                if(fs == NULL)
+                    return 6;
+                else
+                    fprintf(fs,"%s \n", toString(Tab.Elements[i]));
+    }else{
+        for(int i = 0; i<Tab.nbElements;i++)
+            if(!io[1])
+                fprintf(stdout, "%s \n", toString(Tab.Elements[i]));
+            else
+                if(fs == NULL)
+                    return 6;
+                else
+                    fprintf(fs,"%s \n", toString(Tab.Elements[i]));
     }
-    }
+
     vider(&Tab);
     fclose(fs);
     

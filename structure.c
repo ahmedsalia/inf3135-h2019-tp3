@@ -17,11 +17,23 @@ Tableau_t Tableau_init(){
     
 }
 void ajouter(Tableau_t* T, uint128_t element){
+    int index = T->nbElements;
     if(T->Capacite == T->nbElements){
         T->Capacite *= 2;
         T->Elements = realloc(T->Elements, sizeof(uint128_t)*(T->Capacite));
     }
-    T->Elements[T->nbElements] = element;
+    if(T->nbElements == 0)
+        T->Elements[0] = element;
+    else{
+        for(int i = T->nbElements-1; i>=0 ; i--){
+            if(element < T->Elements[i]){
+                T->Elements[i+1] = T->Elements[i];
+                index--;
+            }
+            
+        }
+        T->Elements[index] = element;
+    }
     ++T->nbElements;
 }
 bool contient(Tableau_t* T,uint128_t element){
@@ -38,3 +50,4 @@ bool contient(Tableau_t* T,uint128_t element){
 void vider(Tableau_t *T){
     free(T->Elements);
 }
+

@@ -36,6 +36,7 @@ int main(int argc, char *argv[]){
         fscanf(fe, "%s %s", a , b) ;
         bI = toInt128(a, &nV);
         bS = toInt128(b, &nV);
+	
         if( nV == true)
             continue;
     
@@ -68,31 +69,37 @@ int main(int argc, char *argv[]){
     fclose(fe);
     if(nV == true)
         return 4;
-    
-    if(ordre == ASC){
-        for(int i = Tab.nbElements-1; i >= 0; i--)
+
+	 if(ordre == ASC){
+        for(int i = 0; i < Tab.nbElements; i++){
+            String rep = toString(Tab.Elements[i]);
             if(!io[1])
-                fprintf(stdout, "%s \n", toString(Tab.Elements[i]));
+                fprintf(stdout, "%s\n", rep);
             else
                 if(fs == NULL)
                     return 6;
                 else
-                    fprintf(fs,"%s \n", toString(Tab.Elements[i]));
+                    fprintf(fs,"%s\n", rep);
+            free(rep);
+        }
     }else{
-        for(int i = 0; i<Tab.nbElements;i++)
+        for(int i = Tab.nbElements-1; i>= 0;i--){
+            String rep = toString(Tab.Elements[i]);
             if(!io[1])
-                fprintf(stdout, "%s \n", toString(Tab.Elements[i]));
+                fprintf(stdout, "%s\n", rep);
             else
                 if(fs == NULL)
                     return 6;
                 else
-                    fprintf(fs,"%s \n", toString(Tab.Elements[i]));
+                    fprintf(fs,"%s\n", rep);
+            free(rep);
+        }
     }
 
     vider(&Tab);
+    free(a);
+    free(b);
+    if(io[1])
     fclose(fs);
-    
-    
-   
     return 0 ;
 }

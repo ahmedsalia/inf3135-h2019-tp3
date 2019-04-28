@@ -7,10 +7,11 @@ fi
 if [ ! -f inf3135-h2019-tp2.correction ]; then
 wget -q https://raw.githubusercontent.com/guyfrancoeur/INF3135_H2019_TP2/master/inf3135-h2019-tp2.correction
 fi
-C=0 ; nbTotalNote=0 ;nbPoints=0; NC='\033[0m'
+C=0 ; nbTotalNote=0 ;nbPoints=0;
 utilisateur=$(cat cp.txt)
+ln -sf tp3 tp2
 while read line; do
-espace=""; Color='\033[01;31m'; resultat="echec"
+espace=" "; resultat="echec"
 tabP[$C]=${line:0:2}; tabT[$C]=${line:2:2};tabC[$C]=${line:4:2};
 tabM[$C]=${line:29};
 CMD="${tabM[$C]}"
@@ -22,7 +23,7 @@ tabR[$C]=$?;
 if [ ${tabC[$C]} -eq ${tabR[$C]} ]; then
 resultat="reussi ${tabP[$C]}pts";
 nbPoints=$[$nbPoints+${tabP[$C]}];
-Color='\033[1;32m'
+
 fi
 if [ ${tabP[$C]} -ne 0 ]; then
 nbTotalNote=$[$nbTotalNote + ${tabP[$C]}]
@@ -30,7 +31,7 @@ fi
 if [ "$C" -lt 10 ]; then
 espace=" "
 fi
-echo -e "$espace$C ${tabC[$C]}: ${tabR[$C]} ${Color}$resultat${NC}: ${tabM[$C]}";
+echo -e " $C : $resultat${NC}";
 C=$[$C+1];
 done < inf3135-h2019-tp2.correction
 echo "";

@@ -35,13 +35,14 @@
 *.i*86
 *.x86_64
 *.hex
-
+*tp3
+*tp2
 # Debug files
 *.dSYM/
 *.su
 *.idb
 *.pdb
-
+*.correction
 # Kernel Module Compile Results
 *.mod*
 *.cmd
